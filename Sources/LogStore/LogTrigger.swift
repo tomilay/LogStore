@@ -20,11 +20,23 @@ public class LogTrigger {
             [weak self] data, error in
             
             guard let data = data else { return }
+            let now = self?.displayTimeStamp()
             if data.acceleration.x < -5 {
-                printLog("x acceleration: \(data.acceleration.x)")
+                printLog("\(now!): x acceleration: \(data.acceleration.x)")
                 self?.presentLog()
             }
         }
+    }
+    
+    func displayTimeStamp() -> String {
+        let date = NSDate(timeIntervalSince1970: NSDate().timeIntervalSince1970)
+        let formatter = DateFormatter()
+        formatter.timeZone = NSTimeZone.system
+        
+        formatter.dateStyle = .short
+        formatter.timeStyle = .long
+        
+        return formatter.string(from: date as Date)
     }
 
     func presentLog() {
